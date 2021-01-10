@@ -1,0 +1,2128 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>fava.core &#8212; Fava  documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="fava.ext" href="fava.ext.html" />
+    <link rel="prev" title="fava" href="fava.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-fava.core">
+<span id="fava-core"></span><h1>fava.core<a class="headerlink" href="#module-fava.core" title="Permalink to this headline">¶</a></h1>
+<p>This module provides the data required by Fava’s reports.</p>
+<dl class="py class">
+<dt id="fava.core.FavaLedger">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.</code><code class="sig-name descname">FavaLedger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.FavaLedger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an interface for a Beancount ledger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> – Path to the main Beancount file.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="fava.core.FavaLedger.account_is_closed">
+<code class="sig-name descname">account_is_closed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">account_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="headerlink" href="#fava.core.FavaLedger.account_is_closed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the account is closed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>account_name</strong> – An account name.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the account is closed before the end date of the current
+time filter.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.account_journal">
+<code class="sig-name descname">account_journal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">account_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">with_journal_children</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Tuple<span class="p">[</span>Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span><span class="p">, </span>List<span class="p">[</span>beancount.core.data.Posting<span class="p">]</span><span class="p">, </span>beancount.core.inventory.Inventory<span class="p">, </span>beancount.core.inventory.Inventory<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#fava.core.FavaLedger.account_journal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Journal for an account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>account_name</strong> – An account name.</p></li>
+<li><p><strong>with_journal_children</strong> – Whether to include postings of subaccounts
+of the given account.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of tuples <code class="docutils literal notranslate"><span class="pre">(entry,</span> <span class="pre">postings,</span> <span class="pre">change,</span> <span class="pre">balance)</span></code>.
+change and balance have already been reduced to units.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.account_types">
+<code class="sig-name descname">account_types</code><a class="headerlink" href="#fava.core.FavaLedger.account_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>A NamedTuple containing the names of the five base accounts.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.account_uptodate_status">
+<code class="sig-name descname">account_uptodate_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">account_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="headerlink" href="#fava.core.FavaLedger.account_uptodate_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Status of the last balance or transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>account_name</strong> – An account name.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>A status string for the last balance or transaction of the account.</p>
+<ul class="simple">
+<li><p>’green’:  A balance check that passed.</p></li>
+<li><p>’red’:    A balance check that failed.</p></li>
+<li><p>’yellow’: Not a balance check.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.accounts">
+<code class="sig-name descname">accounts</code><a class="headerlink" href="#fava.core.FavaLedger.accounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dict containing information about the accounts.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.all_entries">
+<code class="sig-name descname">all_entries</code><a class="headerlink" href="#fava.core.FavaLedger.all_entries" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of all (unfiltered) entries.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.all_entries_by_type">
+<code class="sig-name descname">all_entries_by_type</code><a class="headerlink" href="#fava.core.FavaLedger.all_entries_by_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dict of list of all (unfiltered) entries by type.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.all_root_account">
+<code class="sig-name descname">all_root_account</code><a class="headerlink" href="#fava.core.FavaLedger.all_root_account" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.attributes">
+<code class="sig-name descname">attributes</code><a class="headerlink" href="#fava.core.FavaLedger.attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>An <code class="xref py py-class docutils literal notranslate"><span class="pre">AttributesModule</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.beancount_file_path">
+<code class="sig-name descname">beancount_file_path</code><a class="headerlink" href="#fava.core.FavaLedger.beancount_file_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>The path to the main Beancount file.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.budgets">
+<code class="sig-name descname">budgets</code><a class="headerlink" href="#fava.core.FavaLedger.budgets" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#fava.core.budgets.BudgetModule" title="fava.core.budgets.BudgetModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">BudgetModule</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.changed">
+<code class="sig-name descname">changed</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="headerlink" href="#fava.core.FavaLedger.changed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the file needs to be reloaded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if a change in one of the included files or a change in a
+document folder was detected and the file has been reloaded.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.charts">
+<code class="sig-name descname">charts</code><a class="headerlink" href="#fava.core.FavaLedger.charts" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#fava.core.charts.ChartModule" title="fava.core.charts.ChartModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChartModule</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.commodity_pairs">
+<code class="sig-name descname">commodity_pairs</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#fava.core.FavaLedger.commodity_pairs" title="Permalink to this definition">¶</a></dt>
+<dd><p>List pairs of commodities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of pairs of commodities. Pairs of operating currencies will
+be given in both directions not just in the one found in file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.context">
+<code class="sig-name descname">context</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entry_hash</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span><span class="p">, </span>Any<span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="headerlink" href="#fava.core.FavaLedger.context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context for an entry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>entry_hash</strong> – Hash of entry.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple <code class="docutils literal notranslate"><span class="pre">(entry,</span> <span class="pre">balances,</span> <span class="pre">source_slice,</span> <span class="pre">sha256sum)</span></code> of the
+(unique) entry with the given <code class="docutils literal notranslate"><span class="pre">entry_hash</span></code>. If the entry is a
+Balance or Transaction then <code class="docutils literal notranslate"><span class="pre">balances</span></code> is a 2-tuple containing
+the balances before and after the entry of the affected accounts.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.documents">
+<em class="property">property </em><code class="sig-name descname">documents</code><a class="headerlink" href="#fava.core.FavaLedger.documents" title="Permalink to this definition">¶</a></dt>
+<dd><p>All currently filtered documents.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.end_date">
+<em class="property">property </em><code class="sig-name descname">end_date</code><a class="headerlink" href="#fava.core.FavaLedger.end_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>The date to use for prices.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.entries">
+<code class="sig-name descname">entries</code><a class="headerlink" href="#fava.core.FavaLedger.entries" title="Permalink to this definition">¶</a></dt>
+<dd><p>The entries filtered according to the chosen filters.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.errors">
+<code class="sig-name descname">errors</code><a class="headerlink" href="#fava.core.FavaLedger.errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of all errors reported by Beancount.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.events">
+<code class="sig-name descname">events</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event_type</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>beancount.core.data.Event<span class="p">]</span><a class="headerlink" href="#fava.core.FavaLedger.events" title="Permalink to this definition">¶</a></dt>
+<dd><p>List events (possibly filtered by type).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.extensions">
+<code class="sig-name descname">extensions</code><a class="headerlink" href="#fava.core.FavaLedger.extensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#fava.core.extensions.ExtensionModule" title="fava.core.extensions.ExtensionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionModule</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.fava_options">
+<code class="sig-name descname">fava_options</code><a class="headerlink" href="#fava.core.FavaLedger.fava_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dict with all of Fava’s option values.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.file">
+<code class="sig-name descname">file</code><a class="headerlink" href="#fava.core.FavaLedger.file" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#fava.core.file.FileModule" title="fava.core.file.FileModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileModule</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.filter">
+<code class="sig-name descname">filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">force</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">account</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filter</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">time</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.FavaLedger.filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set and apply (if necessary) filters.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.filters">
+<code class="sig-name descname">filters</code><a class="headerlink" href="#fava.core.FavaLedger.filters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.format_decimal">
+<code class="sig-name descname">format_decimal</code><a class="headerlink" href="#fava.core.FavaLedger.format_decimal" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#fava.core.number.DecimalFormatModule" title="fava.core.number.DecimalFormatModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecimalFormatModule</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.get_account_sign">
+<code class="sig-name descname">get_account_sign</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">account_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><a class="headerlink" href="#fava.core.FavaLedger.get_account_sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get account sign.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>account_name</strong> – An account name.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The sign of the given account, +1 for an assets or expenses
+account, -1 otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.get_entry">
+<code class="sig-name descname">get_entry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entry_hash</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span><a class="headerlink" href="#fava.core.FavaLedger.get_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find an entry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>entry_hash</strong> – Hash of the entry.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The entry with the given hash.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="fava.html#fava.helpers.FavaAPIException" title="fava.helpers.FavaAPIException"><strong>FavaAPIException</strong></a> – If there is no entry for the given hash.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.group_entries_by_type">
+<em class="property">static </em><code class="sig-name descname">group_entries_by_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entries</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>List<span class="p">[</span>Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#fava.core.FavaLedger.group_entries_by_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group the given entries by type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>entries</strong> – The entries to group.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of tuples (type, entries) consisting of the directive type
+as a string and the list of corresponding entries.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.ingest">
+<code class="sig-name descname">ingest</code><a class="headerlink" href="#fava.core.FavaLedger.ingest" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#fava.core.ingest.IngestModule" title="fava.core.ingest.IngestModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">IngestModule</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.interval_balances">
+<code class="sig-name descname">interval_balances</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interval</span><span class="p">:</span> <span class="n"><a class="reference internal" href="fava.util.html#fava.util.date.Interval" title="fava.util.date.Interval">fava.util.date.Interval</a></span></em>, <em class="sig-param"><span class="n">account_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">accumulate</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.FavaLedger.interval_balances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Balances by interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>interval</strong> – An interval.</p></li>
+<li><p><strong>account_name</strong> – An account name.</p></li>
+<li><p><strong>accumulate</strong> – A boolean, <code class="docutils literal notranslate"><span class="pre">True</span></code> if the balances for an interval
+should include all entries up to the end of the interval.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of RealAccount instances for all the intervals.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.interval_ends">
+<code class="sig-name descname">interval_ends</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interval</span><span class="p">:</span> <span class="n"><a class="reference internal" href="fava.util.html#fava.util.date.Interval" title="fava.util.date.Interval">fava.util.date.Interval</a></span></em><span class="sig-paren">)</span> &#x2192; Iterable<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a><span class="p">]</span><a class="headerlink" href="#fava.core.FavaLedger.interval_ends" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generator yielding dates corresponding to interval boundaries.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.join_path">
+<code class="sig-name descname">join_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><a class="headerlink" href="#fava.core.FavaLedger.join_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path relative to the directory of the ledger.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.last_entry">
+<code class="sig-name descname">last_entry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">account_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#fava.core.FavaLedger.last_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get last entry of an account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>account_name</strong> – An account name.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The last entry of the account if it is not a Close entry.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.load_file">
+<code class="sig-name descname">load_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.FavaLedger.load_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the main file and all included files and set attributes.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.misc">
+<code class="sig-name descname">misc</code><a class="headerlink" href="#fava.core.FavaLedger.misc" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#fava.core.misc.FavaMisc" title="fava.core.misc.FavaMisc"><code class="xref py py-class docutils literal notranslate"><span class="pre">FavaMisc</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.options">
+<code class="sig-name descname">options</code><a class="headerlink" href="#fava.core.FavaLedger.options" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Beancount options map.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.paths_to_watch">
+<code class="sig-name descname">paths_to_watch</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><span class="p">, </span>List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#fava.core.FavaLedger.paths_to_watch" title="Permalink to this definition">¶</a></dt>
+<dd><p>The paths to included files and document directories.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A tuple (files, directories).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.price_map">
+<code class="sig-name descname">price_map</code><a class="headerlink" href="#fava.core.FavaLedger.price_map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.prices">
+<code class="sig-name descname">prices</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">base</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">quote</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/decimal.html#decimal.Decimal" title="(in Python v3.9)">decimal.Decimal</a><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#fava.core.FavaLedger.prices" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all prices.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.query_shell">
+<code class="sig-name descname">query_shell</code><a class="headerlink" href="#fava.core.FavaLedger.query_shell" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#fava.core.query_shell.QueryShell" title="fava.core.query_shell.QueryShell"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueryShell</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.root_account">
+<code class="sig-name descname">root_account</code><a class="headerlink" href="#fava.core.FavaLedger.root_account" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.FavaLedger.root_tree">
+<code class="sig-name descname">root_tree</code><a class="headerlink" href="#fava.core.FavaLedger.root_tree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.root_tree_closed">
+<em class="property">property </em><code class="sig-name descname">root_tree_closed</code><a class="headerlink" href="#fava.core.FavaLedger.root_tree_closed" title="Permalink to this definition">¶</a></dt>
+<dd><p>A root tree for the balance sheet.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.FavaLedger.statement_path">
+<code class="sig-name descname">statement_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entry_hash</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">metadata_key</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><a class="headerlink" href="#fava.core.FavaLedger.statement_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the path for a statement found in the specified entry.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.Filters">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.</code><code class="sig-name descname">Filters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">fava_options</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.Filters" title="Permalink to this definition">¶</a></dt>
+<dd><p>The possible entry filters.</p>
+<dl class="py attribute">
+<dt id="fava.core.Filters.account">
+<code class="sig-name descname">account</code><a class="headerlink" href="#fava.core.Filters.account" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.Filters.apply">
+<code class="sig-name descname">apply</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entries</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#fava.core.Filters.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the filters to the entries.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.Filters.filter">
+<code class="sig-name descname">filter</code><a class="headerlink" href="#fava.core.Filters.filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.Filters.set">
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">account</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filter</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">time</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="headerlink" href="#fava.core.Filters.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the filters and check if one of them changed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.Filters.time">
+<code class="sig-name descname">time</code><a class="headerlink" href="#fava.core.Filters.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<div class="section" id="module-fava.core._compat">
+<span id="fava-core-compat"></span><h2>fava.core._compat<a class="headerlink" href="#module-fava.core._compat" title="Permalink to this headline">¶</a></h2>
+<p>Beancount V2/V3 compatibility.</p>
+</div>
+<div class="section" id="module-fava.core.accounts">
+<span id="fava-core-accounts"></span><h2>fava.core.accounts<a class="headerlink" href="#module-fava.core.accounts" title="Permalink to this headline">¶</a></h2>
+<p>Account close date and metadata.</p>
+<dl class="py class">
+<dt id="fava.core.accounts.AccountData">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.accounts.</code><code class="sig-name descname">AccountData</code><a class="headerlink" href="#fava.core.accounts.AccountData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Holds information about an account.</p>
+<dl class="py attribute">
+<dt id="fava.core.accounts.AccountData.close_date">
+<code class="sig-name descname">close_date</code><a class="headerlink" href="#fava.core.accounts.AccountData.close_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>The date on which this account is closed (or datetime.date.max).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.accounts.AccountData.meta">
+<code class="sig-name descname">meta</code><a class="headerlink" href="#fava.core.accounts.AccountData.meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>The metadata of the Open entry of this account.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.accounts.AccountDict">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.accounts.</code><code class="sig-name descname">AccountDict</code><a class="headerlink" href="#fava.core.accounts.AccountDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Account info dictionary.</p>
+<dl class="py attribute">
+<dt id="fava.core.accounts.AccountDict.EMPTY">
+<code class="sig-name descname">EMPTY</code><em class="property"> = &lt;fava.core.accounts.AccountData object&gt;</em><a class="headerlink" href="#fava.core.accounts.AccountDict.EMPTY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.accounts.AccountDict.setdefault">
+<code class="sig-name descname">setdefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">_</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#fava.core.accounts.AccountData" title="fava.core.accounts.AccountData">fava.core.accounts.AccountData</a><a class="headerlink" href="#fava.core.accounts.AccountDict.setdefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert key with a value of default if key is not in the dictionary.</p>
+<p>Return the value for key if key is in the dictionary, else default.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.attributes">
+<span id="fava-core-attributes"></span><h2>fava.core.attributes<a class="headerlink" href="#module-fava.core.attributes" title="Permalink to this headline">¶</a></h2>
+<p>Attributes for auto-completion.</p>
+<dl class="py class">
+<dt id="fava.core.attributes.AttributesModule">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.attributes.</code><code class="sig-name descname">AttributesModule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ledger</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.attributes.AttributesModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Some attributes of the ledger (mostly for auto-completion).</p>
+<dl class="py method">
+<dt id="fava.core.attributes.AttributesModule.load_file">
+<code class="sig-name descname">load_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.attributes.AttributesModule.load_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets called when the file has been (re)loaded.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.attributes.AttributesModule.payee_accounts">
+<code class="sig-name descname">payee_accounts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">payee</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="headerlink" href="#fava.core.attributes.AttributesModule.payee_accounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rank accounts for the given payee.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.attributes.AttributesModule.payee_transaction">
+<code class="sig-name descname">payee_transaction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">payee</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.attributes.AttributesModule.payee_transaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>The last transaction for the given payee.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.attributes.get_active_years">
+<code class="sig-prename descclassname">fava.core.attributes.</code><code class="sig-name descname">get_active_years</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entries</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">fye</span><span class="p">:</span> <span class="n"><a class="reference internal" href="fava.util.html#fava.util.date.FiscalYearEnd" title="fava.util.date.FiscalYearEnd">fava.util.date.FiscalYearEnd</a></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="headerlink" href="#fava.core.attributes.get_active_years" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns active years, with support for fiscal years.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entries</strong> – Beancount entries</p></li>
+<li><p><strong>fye</strong> – fiscal year end</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reverse sorted list of years or fiscal years that occur in the
+entries.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.budgets">
+<span id="fava-core-budgets"></span><h2>fava.core.budgets<a class="headerlink" href="#module-fava.core.budgets" title="Permalink to this headline">¶</a></h2>
+<p>Parsing and computing budgets.</p>
+<dl class="py class">
+<dt id="fava.core.budgets.Budget">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.budgets.</code><code class="sig-name descname">Budget</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">account</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">date_start</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a></span></em>, <em class="sig-param"><span class="n">period</span><span class="p">:</span> <span class="n"><a class="reference internal" href="fava.util.html#fava.util.date.Interval" title="fava.util.date.Interval">fava.util.date.Interval</a></span></em>, <em class="sig-param"><span class="n">number</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/decimal.html#decimal.Decimal" title="(in Python v3.9)">decimal.Decimal</a></span></em>, <em class="sig-param"><span class="n">currency</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.budgets.Budget" title="Permalink to this definition">¶</a></dt>
+<dd><p>A budget entry.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.budgets.BudgetError">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.budgets.</code><code class="sig-name descname">BudgetError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">entry</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.budgets.BudgetError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error with a budget.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.budgets.BudgetModule">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.budgets.</code><code class="sig-name descname">BudgetModule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ledger</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.budgets.BudgetModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses budget entries.</p>
+<dl class="py method">
+<dt id="fava.core.budgets.BudgetModule.calculate">
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">account_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">begin_date</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a></span></em>, <em class="sig-param"><span class="n">end_date</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/decimal.html#decimal.Decimal" title="(in Python v3.9)">decimal.Decimal</a><span class="p">]</span><a class="headerlink" href="#fava.core.budgets.BudgetModule.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the budget for an account in an interval.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.budgets.BudgetModule.calculate_children">
+<code class="sig-name descname">calculate_children</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">account_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">begin_date</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a></span></em>, <em class="sig-param"><span class="n">end_date</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/decimal.html#decimal.Decimal" title="(in Python v3.9)">decimal.Decimal</a><span class="p">]</span><a class="headerlink" href="#fava.core.budgets.BudgetModule.calculate_children" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the budget for an account including its children.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.budgets.BudgetModule.load_file">
+<code class="sig-name descname">load_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.budgets.BudgetModule.load_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets called when the file has been (re)loaded.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.budgets.calculate_budget">
+<code class="sig-prename descclassname">fava.core.budgets.</code><code class="sig-name descname">calculate_budget</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">budgets</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>List<span class="p">[</span><a class="reference internal" href="#fava.core.budgets.Budget" title="fava.core.budgets.Budget">fava.core.budgets.Budget</a><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">account_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">date_from</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a></span></em>, <em class="sig-param"><span class="n">date_to</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/decimal.html#decimal.Decimal" title="(in Python v3.9)">decimal.Decimal</a><span class="p">]</span><a class="headerlink" href="#fava.core.budgets.calculate_budget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate budget for an account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>budgets</strong> – A list of <a class="reference internal" href="#fava.core.budgets.Budget" title="fava.core.budgets.Budget"><code class="xref py py-class docutils literal notranslate"><span class="pre">Budget</span></code></a> entries.</p></li>
+<li><p><strong>account_name</strong> – An account name.</p></li>
+<li><p><strong>date_from</strong> – Starting date.</p></li>
+<li><p><strong>date_to</strong> – End date (exclusive).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary of currency to Decimal with the budget for the
+specified account and period.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.budgets.calculate_budget_children">
+<code class="sig-prename descclassname">fava.core.budgets.</code><code class="sig-name descname">calculate_budget_children</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">budgets</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>List<span class="p">[</span><a class="reference internal" href="#fava.core.budgets.Budget" title="fava.core.budgets.Budget">fava.core.budgets.Budget</a><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">account_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">date_from</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a></span></em>, <em class="sig-param"><span class="n">date_to</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/decimal.html#decimal.Decimal" title="(in Python v3.9)">decimal.Decimal</a><span class="p">]</span><a class="headerlink" href="#fava.core.budgets.calculate_budget_children" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate budget for an account including budgets of its children.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>budgets</strong> – A list of <a class="reference internal" href="#fava.core.budgets.Budget" title="fava.core.budgets.Budget"><code class="xref py py-class docutils literal notranslate"><span class="pre">Budget</span></code></a> entries.</p></li>
+<li><p><strong>account_name</strong> – An account name.</p></li>
+<li><p><strong>date_from</strong> – Starting date.</p></li>
+<li><p><strong>date_to</strong> – End date (exclusive).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary of currency to Decimal with the budget for the
+specified account and period.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.budgets.parse_budgets">
+<code class="sig-prename descclassname">fava.core.budgets.</code><code class="sig-name descname">parse_budgets</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">custom_entries</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>List<span class="p">[</span><a class="reference internal" href="#fava.core.budgets.Budget" title="fava.core.budgets.Budget">fava.core.budgets.Budget</a><span class="p">]</span><span class="p">]</span><span class="p">, </span>List<span class="p">[</span><a class="reference internal" href="#fava.core.budgets.BudgetError" title="fava.core.budgets.BudgetError">fava.core.budgets.BudgetError</a><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#fava.core.budgets.parse_budgets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse budget directives from custom entries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>custom_entries</strong> – the Custom entries to parse budgets from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dict of accounts to lists of budgets.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>2015-04-09 custom “budget” Expenses:Books “monthly” 20.00 EUR</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.charts">
+<span id="fava-core-charts"></span><h2>fava.core.charts<a class="headerlink" href="#module-fava.core.charts" title="Permalink to this headline">¶</a></h2>
+<p>Provide data suitable for Fava’s charts.</p>
+<dl class="py class">
+<dt id="fava.core.charts.ChartModule">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.charts.</code><code class="sig-name descname">ChartModule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ledger</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.charts.ChartModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return data for the various charts in Fava.</p>
+<dl class="py method">
+<dt id="fava.core.charts.ChartModule.can_plot_query">
+<em class="property">static </em><code class="sig-name descname">can_plot_query</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">types</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.charts.ChartModule.can_plot_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether we can plot the given query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>types</strong> – The list of types returned by the BQL query.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.charts.ChartModule.hierarchy">
+<code class="sig-name descname">hierarchy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">account_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">conversion</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">begin</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">end</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.charts.ChartModule.hierarchy" title="Permalink to this definition">¶</a></dt>
+<dd><p>An account tree.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.charts.ChartModule.interval_totals">
+<code class="sig-name descname">interval_totals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interval</span><span class="p">:</span> <span class="n"><a class="reference internal" href="fava.util.html#fava.util.date.Interval" title="fava.util.date.Interval">fava.util.date.Interval</a></span></em>, <em class="sig-param"><span class="n">accounts</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">conversion</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.charts.ChartModule.interval_totals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders totals for account (or accounts) in the intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>interval</strong> – An interval.</p></li>
+<li><p><strong>accounts</strong> – A single account (str) or a tuple of accounts.</p></li>
+<li><p><strong>conversion</strong> – The conversion to use.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.charts.ChartModule.linechart">
+<code class="sig-name descname">linechart</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">account_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">conversion</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.charts.ChartModule.linechart" title="Permalink to this definition">¶</a></dt>
+<dd><p>The balance of an account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>account_name</strong> – A string.</p></li>
+<li><p><strong>conversion</strong> – The conversion to use.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of dicts for all dates on which the balance of the given
+account has changed containing the balance (in units) of the
+account at that date.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.charts.ChartModule.net_worth">
+<code class="sig-name descname">net_worth</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interval</span><span class="p">:</span> <span class="n"><a class="reference internal" href="fava.util.html#fava.util.date.Interval" title="fava.util.date.Interval">fava.util.date.Interval</a></span></em>, <em class="sig-param"><span class="n">conversion</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.charts.ChartModule.net_worth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute net worth.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>interval</strong> – A string for the interval.</p></li>
+<li><p><strong>conversion</strong> – The conversion to use.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of dicts for all ends of the given interval containing the
+net worth (Assets + Liabilities) separately converted to all
+operating currencies.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.charts.ChartModule.prices">
+<code class="sig-name descname">prices</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Generator<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>List<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/decimal.html#decimal.Decimal" title="(in Python v3.9)">decimal.Decimal</a><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><span class="p">]</span><a class="headerlink" href="#fava.core.charts.ChartModule.prices" title="Permalink to this definition">¶</a></dt>
+<dd><p>The prices for all commodity pairs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of tuples (base, quote, prices) where prices
+is a list of prices.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.charts.ChartModule.query">
+<code class="sig-name descname">query</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">types</span></em>, <em class="sig-param"><span class="n">rows</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.charts.ChartModule.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chart for a query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>types</strong> – The list of result row types.</p></li>
+<li><p><strong>rows</strong> – The result rows.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.charts.FavaJSONEncoder">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.charts.</code><code class="sig-name descname">FavaJSONEncoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.charts.FavaJSONEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allow encoding some Beancount date structures.</p>
+<dl class="py method">
+<dt id="fava.core.charts.FavaJSONEncoder.default">
+<code class="sig-name descname">default</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.charts.FavaJSONEncoder.default" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement this method in a subclass such that it returns
+a serializable object for <code class="docutils literal notranslate"><span class="pre">o</span></code>, or calls the base implementation
+(to raise a <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>).</p>
+<p>For example, to support arbitrary iterators, you could
+implement default like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">iterable</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">JSONEncoder</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.charts.dumps">
+<code class="sig-prename descclassname">fava.core.charts.</code><code class="sig-name descname">dumps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><a class="headerlink" href="#fava.core.charts.dumps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode to JSON.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.charts.inv_to_dict">
+<code class="sig-prename descclassname">fava.core.charts.</code><code class="sig-name descname">inv_to_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inventory</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.charts.inv_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an inventory to a simple cost-&gt;number dict.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.conversion">
+<span id="fava-core-conversion"></span><h2>fava.core.conversion<a class="headerlink" href="#module-fava.core.conversion" title="Permalink to this headline">¶</a></h2>
+<p>Commodity conversion helpers for Fava.</p>
+<p>All functions in this module will be automatically added as template filters.</p>
+<dl class="py function">
+<dt id="fava.core.conversion.cost">
+<code class="sig-prename descclassname">fava.core.conversion.</code><code class="sig-name descname">cost</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inventory</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.conversion.cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the cost of an inventory.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.conversion.cost_or_value">
+<code class="sig-prename descclassname">fava.core.conversion.</code><code class="sig-name descname">cost_or_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inventory</span></em>, <em class="sig-param"><span class="n">conversion</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">price_map</span><span class="p">:</span> <span class="n">beancount.core.prices.PriceMap</span></em>, <em class="sig-param"><span class="n">date</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="headerlink" href="#fava.core.conversion.cost_or_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the cost or value of an inventory.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.conversion.get_market_value">
+<code class="sig-prename descclassname">fava.core.conversion.</code><code class="sig-name descname">get_market_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pos</span></em>, <em class="sig-param"><span class="n">price_map</span></em>, <em class="sig-param"><span class="n">date</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.conversion.get_market_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the market value of a Position.</p>
+<p>This differs from the convert.get_value function in Beancount by returning
+the cost value if no price can be found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos</strong> – A Position.</p></li>
+<li><p><strong>price_map</strong> – A dict of prices, as built by prices.build_price_map().</p></li>
+<li><p><strong>date</strong> – A datetime.date instance to evaluate the value at, or None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An Amount, with value converted or if the conversion failed just the
+cost value (or the units if the position has no cost).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.conversion.units">
+<code class="sig-prename descclassname">fava.core.conversion.</code><code class="sig-name descname">units</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inventory</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.conversion.units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the units of an inventory.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.documents">
+<span id="fava-core-documents"></span><h2>fava.core.documents<a class="headerlink" href="#module-fava.core.documents" title="Permalink to this headline">¶</a></h2>
+<p>Document path related helpers.</p>
+<dl class="py function">
+<dt id="fava.core.documents.filepath_in_document_folder">
+<code class="sig-prename descclassname">fava.core.documents.</code><code class="sig-name descname">filepath_in_document_folder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">documents_folder</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">account</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">ledger</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><a class="headerlink" href="#fava.core.documents.filepath_in_document_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>File path for a document in the folder for an account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>documents_folder</strong> – The documents folder.</p></li>
+<li><p><strong>account</strong> – The account to choose the subfolder for.</p></li>
+<li><p><strong>filename</strong> – The filename of the document.</p></li>
+<li><p><strong>ledger</strong> – The FavaLedger.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The path that the document should be saved at.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.documents.is_document_or_import_file">
+<code class="sig-prename descclassname">fava.core.documents.</code><code class="sig-name descname">is_document_or_import_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">ledger</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="headerlink" href="#fava.core.documents.is_document_or_import_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether the filename is a document or in an import directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – The filename to check.</p></li>
+<li><p><strong>ledger</strong> – The FavaLedger.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Whether this is one of the documents or a path in an import dir.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.extensions">
+<span id="fava-core-extensions"></span><h2>fava.core.extensions<a class="headerlink" href="#module-fava.core.extensions" title="Permalink to this headline">¶</a></h2>
+<p>Fava extensions</p>
+<dl class="py class">
+<dt id="fava.core.extensions.ExtensionModule">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.extensions.</code><code class="sig-name descname">ExtensionModule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ledger</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.extensions.ExtensionModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fava extensions.</p>
+<dl class="py method">
+<dt id="fava.core.extensions.ExtensionModule.load_file">
+<code class="sig-name descname">load_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.extensions.ExtensionModule.load_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets called when the file has been (re)loaded.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.extensions.ExtensionModule.run_hook">
+<code class="sig-name descname">run_hook</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.extensions.ExtensionModule.run_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a hook for all extensions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.extensions.ExtensionModule.template_and_extension">
+<code class="sig-name descname">template_and_extension</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference internal" href="fava.ext.html#fava.ext.FavaExtensionBase" title="fava.ext.FavaExtensionBase">fava.ext.FavaExtensionBase</a><span class="p">]</span><a class="headerlink" href="#fava.core.extensions.ExtensionModule.template_and_extension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provide data to render an extension report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – The extension class qualname.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Tuple of associated template source, extension instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.extensions.extension_entries">
+<code class="sig-prename descclassname">fava.core.extensions.</code><code class="sig-name descname">extension_entries</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">custom_entries</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.extensions.extension_entries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse custom entries for extensions.</p>
+<p>They have the following format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2016</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">01</span> <span class="n">custom</span> <span class="s2">&quot;fava-extension&quot;</span> <span class="s2">&quot;my_extension&quot;</span> <span class="s2">&quot;{&#39;my_option&#39;: </span><span class="si">{}</span><span class="s2">}&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.fava_options">
+<span id="fava-core-fava-options"></span><h2>fava.core.fava_options<a class="headerlink" href="#module-fava.core.fava_options" title="Permalink to this headline">¶</a></h2>
+<p>Fava’s options.</p>
+<p>Options for Fava can be specified through Custom entries in the Beancount file.
+This module contains a list of possible options, the defaults and the code for
+parsing the options.</p>
+<dl class="py class">
+<dt id="fava.core.fava_options.InsertEntryOption">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.fava_options.</code><code class="sig-name descname">InsertEntryOption</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">date</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a></span></em>, <em class="sig-param"><span class="n">re</span><span class="p">:</span> <span class="n">Pattern<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">lineno</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.fava_options.InsertEntryOption" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert option.</p>
+<p>An option that determines where entries for matching accounts should be
+inserted.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.fava_options.OptionError">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.fava_options.</code><code class="sig-name descname">OptionError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">entry</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.fava_options.OptionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>An error for one the Fava options.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.fava_options.parse_options">
+<code class="sig-prename descclassname">fava.core.fava_options.</code><code class="sig-name descname">parse_options</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">custom_entries</span><span class="p">:</span> <span class="n">List<span class="p">[</span>beancount.core.data.Custom<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>Any<span class="p">]</span><span class="p">, </span>Iterable<span class="p">[</span><a class="reference internal" href="fava.html#fava.helpers.BeancountError" title="fava.helpers.BeancountError">fava.helpers.BeancountError</a><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#fava.core.fava_options.parse_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse custom entries for Fava options.</p>
+<p>The format for option entries is the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2016</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">01</span> <span class="n">custom</span> <span class="s2">&quot;fava-option&quot;</span> <span class="s2">&quot;[name]&quot;</span> <span class="s2">&quot;[value]&quot;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>custom_entries</strong> – A list of Custom entries.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple (options, errors) where options is a dictionary of all options
+to values, and errors contains possible parsing errors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.file">
+<span id="fava-core-file"></span><h2>fava.core.file<a class="headerlink" href="#module-fava.core.file" title="Permalink to this headline">¶</a></h2>
+<p>Reading/writing Beancount files.</p>
+<dl class="py data">
+<dt id="fava.core.file.EXCL_FLAGS">
+<code class="sig-prename descclassname">fava.core.file.</code><code class="sig-name descname">EXCL_FLAGS</code><em class="property"> = {'C', 'M', 'P', 'R', 'S', 'T', 'U'}</em><a class="headerlink" href="#fava.core.file.EXCL_FLAGS" title="Permalink to this definition">¶</a></dt>
+<dd><p>The flags to exclude when rendering entries.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.file.FileModule">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.file.</code><code class="sig-name descname">FileModule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ledger</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.file.FileModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Functions related to reading/writing to Beancount files.</p>
+<dl class="py method">
+<dt id="fava.core.file.FileModule.get_source">
+<code class="sig-name descname">get_source</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="headerlink" href="#fava.core.file.FileModule.get_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get source files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> – The path of the file.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A string with the file contents and the <cite>sha256sum</cite> of the file.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="fava.html#fava.helpers.FavaAPIException" title="fava.helpers.FavaAPIException"><strong>FavaAPIException</strong></a> – If the file at <cite>path</cite> is not one of the
+    source files.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.file.FileModule.insert_entries">
+<code class="sig-name descname">insert_entries</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entries</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.file.FileModule.insert_entries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert entries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>entries</strong> – A list of entries.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.file.FileModule.insert_metadata">
+<code class="sig-name descname">insert_metadata</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entry_hash</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">basekey</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.file.FileModule.insert_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert metadata into a file at lineno.</p>
+<p>Also, prevent duplicate keys.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.file.FileModule.list_sources">
+<code class="sig-name descname">list_sources</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="headerlink" href="#fava.core.file.FileModule.list_sources" title="Permalink to this definition">¶</a></dt>
+<dd><p>List source files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of all sources files, with the main file listed first.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.file.FileModule.render_entries">
+<code class="sig-name descname">render_entries</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entries</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Generator<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><span class="p">]</span><a class="headerlink" href="#fava.core.file.FileModule.render_entries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return entries in Beancount format.</p>
+<p>Only renders <code class="xref py py-class docutils literal notranslate"><span class="pre">Balance</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">Transaction</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>entries</strong> – A list of entries.</p>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p>The entries rendered in Beancount format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.file.FileModule.save_entry_slice">
+<code class="sig-name descname">save_entry_slice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entry_hash</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">source_slice</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">sha256sum</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><a class="headerlink" href="#fava.core.file.FileModule.save_entry_slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save slice of the source file for an entry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry</strong> – An entry.</p></li>
+<li><p><strong>source_slice</strong> – The lines that the entry should be replaced with.</p></li>
+<li><p><strong>sha256sum</strong> – The sha256sum of the current lines of the entry.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <cite>sha256sum</cite> of the new lines of the entry.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="fava.html#fava.helpers.FavaAPIException" title="fava.helpers.FavaAPIException"><strong>FavaAPIException</strong></a> – If the entry is not found or the file changed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.file.FileModule.set_source">
+<code class="sig-name descname">set_source</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">source</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">sha256sum</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><a class="headerlink" href="#fava.core.file.FileModule.set_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write to source file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – The path of the file.</p></li>
+<li><p><strong>source</strong> – A string with the file contents.</p></li>
+<li><p><strong>sha256sum</strong> – Hash of the file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <cite>sha256sum</cite> of the updated file.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="fava.html#fava.helpers.FavaAPIException" title="fava.helpers.FavaAPIException"><strong>FavaAPIException</strong></a> – If the file at <cite>path</cite> is not one of the
+    source files or if the file was changed externally.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.file.find_entry_lines">
+<code class="sig-prename descclassname">fava.core.file.</code><code class="sig-name descname">find_entry_lines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lines</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">lineno</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="headerlink" href="#fava.core.file.find_entry_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lines of entry starting at lineno.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lines</strong> – A list of lines.</p></li>
+<li><p><strong>lineno</strong> – The 0-based line-index to start at.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.file.find_insert_position">
+<code class="sig-prename descclassname">fava.core.file.</code><code class="sig-name descname">find_insert_position</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entry</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">insert_options</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#fava.core.fava_options.InsertEntryOption" title="fava.core.fava_options.InsertEntryOption">fava.core.fava_options.InsertEntryOption</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">default_filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#fava.core.file.find_insert_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find insert position for an entry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry</strong> – An entry.</p></li>
+<li><p><strong>insert_options</strong> – A list of InsertOption.</p></li>
+<li><p><strong>default_filename</strong> – The default file to insert into if no option matches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple of the filename and the line number.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.file.get_entry_slice">
+<code class="sig-prename descclassname">fava.core.file.</code><code class="sig-name descname">get_entry_slice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entry</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="headerlink" href="#fava.core.file.get_entry_slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get slice of the source file for an entry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>entry</strong> – An entry.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A string containing the lines of the entry and the <cite>sha256sum</cite> of
+these lines.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.file.incomplete_sortkey">
+<code class="sig-prename descclassname">fava.core.file.</code><code class="sig-name descname">incomplete_sortkey</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entry</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span><a class="headerlink" href="#fava.core.file.incomplete_sortkey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sortkey for entries that might have incomplete metadata.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.file.insert_entry">
+<code class="sig-prename descclassname">fava.core.file.</code><code class="sig-name descname">insert_entry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entry</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">default_filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">insert_options</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#fava.core.fava_options.InsertEntryOption" title="fava.core.fava_options.InsertEntryOption">fava.core.fava_options.InsertEntryOption</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">currency_column</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em>, <em class="sig-param"><span class="n">indent</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="#fava.core.fava_options.InsertEntryOption" title="fava.core.fava_options.InsertEntryOption">fava.core.fava_options.InsertEntryOption</a><span class="p">]</span><a class="headerlink" href="#fava.core.file.insert_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert an entry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry</strong> – An entry.</p></li>
+<li><p><strong>default_filename</strong> – The default file to insert into if no option matches.</p></li>
+<li><p><strong>insert_options</strong> – Insert options.</p></li>
+<li><p><strong>currency_column</strong> – The column to align currencies at.</p></li>
+<li><p><strong>indent</strong> – Number of indent spaces.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of updated insert options.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.file.insert_metadata_in_file">
+<code class="sig-prename descclassname">fava.core.file.</code><code class="sig-name descname">insert_metadata_in_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">lineno</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em>, <em class="sig-param"><span class="n">indent</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em>, <em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.file.insert_metadata_in_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts the specified metadata in the file below lineno, taking into
+account the whitespace in front of the line that lineno.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.file.save_entry_slice">
+<code class="sig-prename descclassname">fava.core.file.</code><code class="sig-name descname">save_entry_slice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entry</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">source_slice</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">sha256sum</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><a class="headerlink" href="#fava.core.file.save_entry_slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save slice of the source file for an entry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry</strong> – An entry.</p></li>
+<li><p><strong>source_slice</strong> – The lines that the entry should be replaced with.</p></li>
+<li><p><strong>sha256sum</strong> – The sha256sum of the current lines of the entry.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <cite>sha256sum</cite> of the new lines of the entry.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="fava.html#fava.helpers.FavaAPIException" title="fava.helpers.FavaAPIException"><strong>FavaAPIException</strong></a> – If the file at <cite>path</cite> is not one of the
+    source files.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.file.sha256_str">
+<code class="sig-prename descclassname">fava.core.file.</code><code class="sig-name descname">sha256_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><a class="headerlink" href="#fava.core.file.sha256_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hash a string.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.filters">
+<span id="fava-core-filters"></span><h2>fava.core.filters<a class="headerlink" href="#module-fava.core.filters" title="Permalink to this headline">¶</a></h2>
+<p>Entry filters.</p>
+<dl class="py class">
+<dt id="fava.core.filters.AccountFilter">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.filters.</code><code class="sig-name descname">AccountFilter</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.AccountFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter by account.</p>
+<p>The filter string can either a regular expression or a parent account.</p>
+<dl class="py method">
+<dt id="fava.core.filters.AccountFilter.set">
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.AccountFilter.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the filter.</p>
+<p>Subclasses should check for validity of the value in this method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.filters.AdvancedFilter">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.filters.</code><code class="sig-name descname">AdvancedFilter</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.AdvancedFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter by tags and links and keys.</p>
+<dl class="py method">
+<dt id="fava.core.filters.AdvancedFilter.set">
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="headerlink" href="#fava.core.filters.AdvancedFilter.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the filter.</p>
+<p>Subclasses should check for validity of the value in this method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.filters.EntryFilter">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.filters.</code><code class="sig-name descname">EntryFilter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">fava_options</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.EntryFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filters a list of entries.</p>
+<dl class="py method">
+<dt id="fava.core.filters.EntryFilter.apply">
+<code class="sig-name descname">apply</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entries</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#fava.core.filters.EntryFilter.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entries</strong> – a list of entries.</p></li>
+<li><p><strong>options</strong> – an options_map.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of filtered entries.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.EntryFilter.set">
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="headerlink" href="#fava.core.filters.EntryFilter.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the filter.</p>
+<p>Subclasses should check for validity of the value in this method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt id="fava.core.filters.FilterException">
+<em class="property">exception </em><code class="sig-prename descclassname">fava.core.filters.</code><code class="sig-name descname">FilterException</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filter_type</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter exception.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.filters.FilterSyntaxLexer">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.filters.</code><code class="sig-name descname">FilterSyntaxLexer</code><a class="headerlink" href="#fava.core.filters.FilterSyntaxLexer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lexer for Fava’s filter syntax.</p>
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxLexer.ALL">
+<code class="sig-name descname">ALL</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">token</span></em>, <em class="sig-param"><span class="n">_</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxLexer.ALL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxLexer.ANY">
+<code class="sig-name descname">ANY</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">token</span></em>, <em class="sig-param"><span class="n">_</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxLexer.ANY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxLexer.KEY">
+<code class="sig-name descname">KEY</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">token</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxLexer.KEY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxLexer.LINK">
+<code class="sig-name descname">LINK</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">token</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxLexer.LINK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.filters.FilterSyntaxLexer.RULES">
+<code class="sig-name descname">RULES</code><em class="property"> = (('LINK', '\\^[A-Za-z0-9\\-_/.]+'), ('TAG', '\\#[A-Za-z0-9\\-_/.]+'), ('KEY', '[a-z][a-zA-Z0-9\\-_]+:'), ('ALL', 'all\\('), ('ANY', 'any\\('), ('STRING', '\\w[-\\w]*|&quot;[^&quot;]*&quot;|\\\'[^\\\']*\\\''))</em><a class="headerlink" href="#fava.core.filters.FilterSyntaxLexer.RULES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxLexer.STRING">
+<code class="sig-name descname">STRING</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">token</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxLexer.STRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxLexer.TAG">
+<code class="sig-name descname">TAG</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">token</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxLexer.TAG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxLexer.lex">
+<code class="sig-name descname">lex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; Generator<span class="p">[</span><a class="reference internal" href="#fava.core.filters.Token" title="fava.core.filters.Token">fava.core.filters.Token</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><span class="p">]</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxLexer.lex" title="Permalink to this definition">¶</a></dt>
+<dd><p>A generator yielding all tokens in a given line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – A string, the line to lex.</p>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p>All Tokens in the line.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.filters.FilterSyntaxLexer.regex">
+<code class="sig-name descname">regex</code><em class="property"> = re.compile('(?P&lt;LINK&gt;\\^[A-Za-z0-9\\-_/.]+)|(?P&lt;TAG&gt;\\#[A-Za-z0-9\\-_/.]+)|(?P&lt;KEY&gt;[a-z][a-zA-Z0-9\\-_]+:)|(?P&lt;ALL&gt;all\\()|(?P&lt;ANY&gt;any\\()|(?P&lt;STRING&gt;\\w[-\\w]*|&quot;[^&quot;]*&quot;|\\\'[^\\\']*\\\')')</em><a class="headerlink" href="#fava.core.filters.FilterSyntaxLexer.regex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.filters.FilterSyntaxLexer.tokens">
+<code class="sig-name descname">tokens</code><em class="property"> = ('ANY', 'ALL', 'KEY', 'LINK', 'STRING', 'TAG')</em><a class="headerlink" href="#fava.core.filters.FilterSyntaxLexer.tokens" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.filters.FilterSyntaxParser">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.filters.</code><code class="sig-name descname">FilterSyntaxParser</code><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxParser.p_error">
+<code class="sig-name descname">p_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.p_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxParser.p_expr">
+<code class="sig-name descname">p_expr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.p_expr" title="Permalink to this definition">¶</a></dt>
+<dd><p>expr : simple_expr</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxParser.p_expr_all">
+<code class="sig-name descname">p_expr_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.p_expr_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>expr : ALL expr ‘)’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxParser.p_expr_and">
+<code class="sig-name descname">p_expr_and</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.p_expr_and" title="Permalink to this definition">¶</a></dt>
+<dd><p>expr : expr expr %prec AND</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxParser.p_expr_any">
+<code class="sig-name descname">p_expr_any</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.p_expr_any" title="Permalink to this definition">¶</a></dt>
+<dd><p>expr : ANY expr ‘)’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxParser.p_expr_negated">
+<code class="sig-name descname">p_expr_negated</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.p_expr_negated" title="Permalink to this definition">¶</a></dt>
+<dd><p>expr : ‘-‘ expr %prec UMINUS</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxParser.p_expr_or">
+<code class="sig-name descname">p_expr_or</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.p_expr_or" title="Permalink to this definition">¶</a></dt>
+<dd><p>expr : expr ‘,’ expr</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxParser.p_expr_parentheses">
+<code class="sig-name descname">p_expr_parentheses</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.p_expr_parentheses" title="Permalink to this definition">¶</a></dt>
+<dd><p>expr : ‘(‘ expr ‘)’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxParser.p_filter">
+<code class="sig-name descname">p_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.p_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>filter : expr</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxParser.p_simple_expr_LINK">
+<code class="sig-name descname">p_simple_expr_LINK</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.p_simple_expr_LINK" title="Permalink to this definition">¶</a></dt>
+<dd><p>simple_expr : LINK</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxParser.p_simple_expr_STRING">
+<code class="sig-name descname">p_simple_expr_STRING</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.p_simple_expr_STRING" title="Permalink to this definition">¶</a></dt>
+<dd><p>simple_expr : STRING</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxParser.p_simple_expr_TAG">
+<code class="sig-name descname">p_simple_expr_TAG</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.p_simple_expr_TAG" title="Permalink to this definition">¶</a></dt>
+<dd><p>simple_expr : TAG</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.filters.FilterSyntaxParser.p_simple_expr_key">
+<code class="sig-name descname">p_simple_expr_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.p_simple_expr_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>simple_expr : KEY STRING</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.filters.FilterSyntaxParser.precedence">
+<code class="sig-name descname">precedence</code><em class="property"> = (('left', 'AND'), ('right', 'UMINUS'))</em><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.precedence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.filters.FilterSyntaxParser.tokens">
+<code class="sig-name descname">tokens</code><em class="property"> = ('ANY', 'ALL', 'KEY', 'LINK', 'STRING', 'TAG')</em><a class="headerlink" href="#fava.core.filters.FilterSyntaxParser.tokens" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.filters.Match">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.filters.</code><code class="sig-name descname">Match</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">search</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.Match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Match a string.</p>
+<dl class="py attribute">
+<dt id="fava.core.filters.Match.match">
+<code class="sig-name descname">match</code><a class="headerlink" href="#fava.core.filters.Match.match" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.filters.TimeFilter">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.filters.</code><code class="sig-name descname">TimeFilter</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.TimeFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter by dates.</p>
+<dl class="py method">
+<dt id="fava.core.filters.TimeFilter.set">
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="headerlink" href="#fava.core.filters.TimeFilter.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the filter.</p>
+<p>Subclasses should check for validity of the value in this method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.filters.Token">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.filters.</code><code class="sig-name descname">Token</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">type_</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.filters.Token" title="Permalink to this definition">¶</a></dt>
+<dd><p>A token having a certain type and value.</p>
+<p>The lexer attribute only exists since PLY writes to it in case of a parser
+error.</p>
+<dl class="py attribute">
+<dt id="fava.core.filters.Token.lexer">
+<code class="sig-name descname">lexer</code><a class="headerlink" href="#fava.core.filters.Token.lexer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.filters.Token.type">
+<code class="sig-name descname">type</code><a class="headerlink" href="#fava.core.filters.Token.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.filters.Token.value">
+<code class="sig-name descname">value</code><a class="headerlink" href="#fava.core.filters.Token.value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.filters.get_entry_accounts">
+<code class="sig-prename descclassname">fava.core.filters.</code><code class="sig-name descname">get_entry_accounts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entry</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>beancount.core.data.Open<span class="p">, </span>beancount.core.data.Close<span class="p">, </span>beancount.core.data.Commodity<span class="p">, </span>beancount.core.data.Pad<span class="p">, </span>beancount.core.data.Balance<span class="p">, </span>beancount.core.data.Transaction<span class="p">, </span>beancount.core.data.Note<span class="p">, </span>beancount.core.data.Event<span class="p">, </span>beancount.core.data.Query<span class="p">, </span>beancount.core.data.Price<span class="p">, </span>beancount.core.data.Document<span class="p">, </span>beancount.core.data.Custom<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Iterable<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="headerlink" href="#fava.core.filters.get_entry_accounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accounts for an entry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>entry</strong> – An entry.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>For
+transactions the posting accounts are listed in reverse order.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>An iterable with the entry’s accounts ordered by priority</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.ingest">
+<span id="fava-core-ingest"></span><h2>fava.core.ingest<a class="headerlink" href="#module-fava.core.ingest" title="Permalink to this headline">¶</a></h2>
+<p>Ingest helper functions.</p>
+<dl class="py class">
+<dt id="fava.core.ingest.FileImportInfo">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.ingest.</code><code class="sig-name descname">FileImportInfo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">importer_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">account</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">date</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.ingest.FileImportInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Info about one file/importer combination.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.ingest.FileImporters">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.ingest.</code><code class="sig-name descname">FileImporters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">basename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">importers</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#fava.core.ingest.FileImportInfo" title="fava.core.ingest.FileImportInfo">fava.core.ingest.FileImportInfo</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.ingest.FileImporters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Importers for a file.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.ingest.IngestError">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.ingest.</code><code class="sig-name descname">IngestError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">entry</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.ingest.IngestError" title="Permalink to this definition">¶</a></dt>
+<dd><p>An error with one of the importers.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.ingest.IngestModule">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.ingest.</code><code class="sig-name descname">IngestModule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ledger</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.ingest.IngestModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exposes ingest functionality.</p>
+<dl class="py method">
+<dt id="fava.core.ingest.IngestModule.extract">
+<code class="sig-name descname">extract</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">importer_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.ingest.IngestModule.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract entries from filename with the specified importer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – The full path to a file.</p></li>
+<li><p><strong>importer_name</strong> – The name of an importer that matched the file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of new imported entries.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.ingest.IngestModule.import_data">
+<code class="sig-name descname">import_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="#fava.core.ingest.FileImporters" title="fava.core.ingest.FileImporters">fava.core.ingest.FileImporters</a><span class="p">]</span><a class="headerlink" href="#fava.core.ingest.IngestModule.import_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identify files and importers that can be imported.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of <a class="reference internal" href="#fava.core.ingest.FileImportInfo" title="fava.core.ingest.FileImportInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileImportInfo</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.ingest.IngestModule.load_file">
+<code class="sig-name descname">load_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.ingest.IngestModule.load_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets called when the file has been (re)loaded.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.ingest.IngestModule.module_path">
+<em class="property">property </em><code class="sig-name descname">module_path</code><a class="headerlink" href="#fava.core.ingest.IngestModule.module_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>The path to the importer configuration.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.ingest.file_import_info">
+<code class="sig-prename descclassname">fava.core.ingest.</code><code class="sig-name descname">file_import_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">importer</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#fava.core.ingest.FileImportInfo" title="fava.core.ingest.FileImportInfo">fava.core.ingest.FileImportInfo</a><a class="headerlink" href="#fava.core.ingest.file_import_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate info about a file with an importer.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.inventory">
+<span id="fava-core-inventory"></span><h2>fava.core.inventory<a class="headerlink" href="#module-fava.core.inventory" title="Permalink to this headline">¶</a></h2>
+<p>Alternative implementation of Beancount’s Inventory.</p>
+<dl class="py class">
+<dt id="fava.core.inventory.CounterInventory">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.inventory.</code><code class="sig-name descname">CounterInventory</code><a class="headerlink" href="#fava.core.inventory.CounterInventory" title="Permalink to this definition">¶</a></dt>
+<dd><p>A lightweight inventory.</p>
+<p>This is intended as a faster alternative to Beancount’s Inventory class.
+Due to not using a list, for inventories with a lot of different positions,
+inserting is much faster.</p>
+<p>The keys should be tuples <code class="docutils literal notranslate"><span class="pre">(currency,</span> <span class="pre">cost)</span></code>.</p>
+<dl class="py method">
+<dt id="fava.core.inventory.CounterInventory.add">
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">number</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/decimal.html#decimal.Decimal" title="(in Python v3.9)">decimal.Decimal</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.inventory.CounterInventory.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a number to key.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.inventory.CounterInventory.add_amount">
+<code class="sig-name descname">add_amount</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">amount</span></em>, <em class="sig-param"><span class="n">cost</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.inventory.CounterInventory.add_amount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an Amount to the inventory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.inventory.CounterInventory.add_inventory">
+<code class="sig-name descname">add_inventory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">counter</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#fava.core.inventory.CounterInventory" title="fava.core.inventory.CounterInventory">fava.core.inventory.CounterInventory</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.inventory.CounterInventory.add_inventory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add another <a class="reference internal" href="#fava.core.inventory.CounterInventory" title="fava.core.inventory.CounterInventory"><code class="xref py py-class docutils literal notranslate"><span class="pre">CounterInventory</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.inventory.CounterInventory.add_position">
+<code class="sig-name descname">add_position</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pos</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.inventory.CounterInventory.add_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a Position or Posting to the inventory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.inventory.CounterInventory.is_empty">
+<code class="sig-name descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="headerlink" href="#fava.core.inventory.CounterInventory.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the inventory is empty.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.inventory.CounterInventory.reduce">
+<code class="sig-name descname">reduce</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reducer</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#fava.core.inventory.CounterInventory" title="fava.core.inventory.CounterInventory">fava.core.inventory.CounterInventory</a><a class="headerlink" href="#fava.core.inventory.CounterInventory.reduce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduce inventory.</p>
+<p>Note that this returns a simple <a class="reference internal" href="#fava.core.inventory.CounterInventory" title="fava.core.inventory.CounterInventory"><code class="xref py py-class docutils literal notranslate"><span class="pre">CounterInventory</span></code></a> with just
+currencies as keys.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.misc">
+<span id="fava-core-misc"></span><h2>fava.core.misc<a class="headerlink" href="#module-fava.core.misc" title="Permalink to this headline">¶</a></h2>
+<p>Some miscellaneous reports.</p>
+<dl class="py class">
+<dt id="fava.core.misc.FavaError">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.misc.</code><code class="sig-name descname">FavaError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">entry</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.misc.FavaError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generic Fava-specific error.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.misc.FavaMisc">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.misc.</code><code class="sig-name descname">FavaMisc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ledger</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.misc.FavaMisc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides access to some miscellaneous reports.</p>
+<dl class="py method">
+<dt id="fava.core.misc.FavaMisc.load_file">
+<code class="sig-name descname">load_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.misc.FavaMisc.load_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets called when the file has been (re)loaded.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.misc.FavaMisc.sidebar_links">
+<code class="sig-name descname">sidebar_links</code><em class="property">: List<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><span class="p">]</span></em><a class="headerlink" href="#fava.core.misc.FavaMisc.sidebar_links" title="Permalink to this definition">¶</a></dt>
+<dd><p>User-chosen links to show in the sidebar.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.misc.FavaMisc.upcoming_events">
+<code class="sig-name descname">upcoming_events</code><em class="property">: List<span class="p">[</span>beancount.core.data.Event<span class="p">]</span></em><a class="headerlink" href="#fava.core.misc.FavaMisc.upcoming_events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upcoming events in the next few days.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.misc.align">
+<code class="sig-prename descclassname">fava.core.misc.</code><code class="sig-name descname">align</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">currency_column</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><a class="headerlink" href="#fava.core.misc.align" title="Permalink to this definition">¶</a></dt>
+<dd><p>Align currencies in one column.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.misc.sidebar_links">
+<code class="sig-prename descclassname">fava.core.misc.</code><code class="sig-name descname">sidebar_links</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">custom_entries</span><span class="p">:</span> <span class="n">List<span class="p">[</span>beancount.core.data.Custom<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#fava.core.misc.sidebar_links" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse custom entries for links.</p>
+<p>They have the following format:</p>
+<p>2016-04-01 custom “fava-sidebar-link” “2014” “/income_statement/?time=2014”</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fava.core.misc.upcoming_events">
+<code class="sig-prename descclassname">fava.core.misc.</code><code class="sig-name descname">upcoming_events</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">events</span><span class="p">:</span> <span class="n">List<span class="p">[</span>beancount.core.data.Event<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">max_delta</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>beancount.core.data.Event<span class="p">]</span><a class="headerlink" href="#fava.core.misc.upcoming_events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse entries for upcoming events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>events</strong> – A list of events.</p></li>
+<li><p><strong>max_delta</strong> – Number of days that should be considered.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of the Events in entries that are less than <cite>max_delta</cite> days
+away.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.module_base">
+<span id="fava-core-module-base"></span><h2>fava.core.module_base<a class="headerlink" href="#module-fava.core.module_base" title="Permalink to this headline">¶</a></h2>
+<p>Base class for the “modules” of FavaLedger.</p>
+<dl class="py class">
+<dt id="fava.core.module_base.FavaModule">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.module_base.</code><code class="sig-name descname">FavaModule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ledger</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.module_base.FavaModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for the “modules” of FavaLedger.</p>
+<dl class="py method">
+<dt id="fava.core.module_base.FavaModule.load_file">
+<code class="sig-name descname">load_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.module_base.FavaModule.load_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets called when the file has been (re)loaded.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.number">
+<span id="fava-core-number"></span><h2>fava.core.number<a class="headerlink" href="#module-fava.core.number" title="Permalink to this headline">¶</a></h2>
+<p>Formatting numbers.</p>
+<dl class="py class">
+<dt id="fava.core.number.DecimalFormatModule">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.number.</code><code class="sig-name descname">DecimalFormatModule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ledger</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.number.DecimalFormatModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formatting numbers.</p>
+<dl class="py method">
+<dt id="fava.core.number.DecimalFormatModule.load_file">
+<code class="sig-name descname">load_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.number.DecimalFormatModule.load_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets called when the file has been (re)loaded.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.query_shell">
+<span id="fava-core-query-shell"></span><h2>fava.core.query_shell<a class="headerlink" href="#module-fava.core.query_shell" title="Permalink to this headline">¶</a></h2>
+<p>For using the Beancount shell from Fava.</p>
+<dl class="py class">
+<dt id="fava.core.query_shell.QueryShell">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.query_shell.</code><code class="sig-name descname">QueryShell</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ledger</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.query_shell.QueryShell" title="Permalink to this definition">¶</a></dt>
+<dd><p>A light wrapper around Beancount’s shell.</p>
+<dl class="py method">
+<dt id="fava.core.query_shell.QueryShell.add_help">
+<code class="sig-name descname">add_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.query_shell.QueryShell.add_help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach help functions for each of the parsed token handlers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.query_shell.QueryShell.do_EOF">
+<code class="sig-name descname">do_EOF</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.query_shell.QueryShell.do_EOF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Doesn’t do anything in Fava’s query shell.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.query_shell.QueryShell.do_exit">
+<code class="sig-name descname">do_exit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.query_shell.QueryShell.do_exit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Doesn’t do anything in Fava’s query shell.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.query_shell.QueryShell.do_quit">
+<code class="sig-name descname">do_quit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.query_shell.QueryShell.do_quit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Doesn’t do anything in Fava’s query shell.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.query_shell.QueryShell.execute_query">
+<code class="sig-name descname">execute_query</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.query_shell.QueryShell.execute_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>query</strong> – A query string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple (contents, types, rows) where either the first or the last
+two entries are None. If the query result is a table, it will be
+contained in <code class="docutils literal notranslate"><span class="pre">types</span></code> and <code class="docutils literal notranslate"><span class="pre">rows</span></code>, otherwise the result will be
+contained in <code class="docutils literal notranslate"><span class="pre">contents</span></code> (as a string).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.query_shell.QueryShell.get_pager">
+<code class="sig-name descname">get_pager</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.query_shell.QueryShell.get_pager" title="Permalink to this definition">¶</a></dt>
+<dd><p>No real pager, just a wrapper that doesn’t close self.buffer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.query_shell.QueryShell.load_file">
+<code class="sig-name descname">load_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.query_shell.QueryShell.load_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets called when the file has been (re)loaded.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.query_shell.QueryShell.noop">
+<code class="sig-name descname">noop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.query_shell.QueryShell.noop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Doesn’t do anything in Fava’s query shell.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.query_shell.QueryShell.on_Reload">
+<code class="sig-name descname">on_Reload</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.query_shell.QueryShell.on_Reload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Doesn’t do anything in Fava’s query shell.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.query_shell.QueryShell.on_RunCustom">
+<code class="sig-name descname">on_RunCustom</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">run_stmt</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.query_shell.QueryShell.on_RunCustom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a custom query.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.query_shell.QueryShell.on_Select">
+<code class="sig-name descname">on_Select</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">statement</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.query_shell.QueryShell.on_Select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract data from a query on the postings.</p>
+<p>The general form of a SELECT statement loosely follows SQL syntax, with
+some mild and idiomatic extensions:</p>
+<blockquote>
+<div><p>SELECT [DISTINCT] [&lt;targets&gt;|*]
+[FROM &lt;from_expr&gt; [OPEN ON &lt;date&gt;] [CLOSE [ON &lt;date&gt;]] [CLEAR]]
+[WHERE &lt;where_expr&gt;]
+[GROUP BY &lt;groups&gt;]
+[ORDER BY &lt;groups&gt; [ASC|DESC]]
+[LIMIT num]</p>
+</div></blockquote>
+<p>Where:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>targets: A list of desired output attributes from the postings, and</dt><dd><p>expressions on them. Some of the attributes of the parent transaction
+directive are made available in this context as well. Simple functions
+(that return a single value per row) and aggregation functions (that
+return a single value per group) are available. For the complete
+list of supported columns and functions, see help on “targets”.
+You can also provide a wildcard here, which will select a reasonable
+default set of columns for rendering a journal.</p>
+</dd>
+<dt>from_expr: A logical expression that matches on the attributes of</dt><dd><p>the directives (not postings). This allows you to select a subset of
+transactions, so the accounting equation is respected for balance
+reports. For the complete list of supported columns and functions,
+see help on “from”.</p>
+</dd>
+<dt>where_expr: A logical expression that matches on the attributes of</dt><dd><p>postings. The available columns are similar to those in the targets
+clause, without the aggregation functions.</p>
+</dd>
+<dt>OPEN clause: replace all the transactions before the given date by</dt><dd><p>summarizing entries and transfer Income and Expenses balances to
+Equity.</p>
+</dd>
+</dl>
+<p>CLOSE clause: Remove all the transactions after the given date and</p>
+<p>CLEAR: Transfer final Income and Expenses balances to Equity.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.query_shell.QueryShell.query_to_file">
+<code class="sig-name descname">query_to_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query_string</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">result_format</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.query_shell.QueryShell.query_to_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get query result as file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query_string</strong> – A string, the query to run.</p></li>
+<li><p><strong>result_format</strong> – The file format to save to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple (name, data), where name is either ‘query_result’ or the
+name of a custom query if the query string is ‘run name_of_query’.
+<code class="docutils literal notranslate"><span class="pre">data</span></code> contains the file contents.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="fava.html#fava.helpers.FavaAPIException" title="fava.helpers.FavaAPIException"><strong>FavaAPIException</strong></a> – If the result format is not supported or the</p></li>
+<li><p><strong>query failed.</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.tree">
+<span id="fava-core-tree"></span><h2>fava.core.tree<a class="headerlink" href="#module-fava.core.tree" title="Permalink to this headline">¶</a></h2>
+<p>Account balance trees.</p>
+<dl class="py class">
+<dt id="fava.core.tree.Tree">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.tree.</code><code class="sig-name descname">Tree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entries</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.tree.Tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Account tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>entries</strong> – A list of entries to compute balances from.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="fava.core.tree.Tree.ancestors">
+<code class="sig-name descname">ancestors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.tree.Tree.ancestors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ancestors of an account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – An account name.</p>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p>The ancestors of the given account from the bottom up.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.tree.Tree.cap">
+<code class="sig-name descname">cap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">unrealized_account</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.tree.Tree.cap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transfer Income and Expenses, add conversions and unrealized gains.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>options</strong> – The Beancount options.</p></li>
+<li><p><strong>unrealized_account</strong> – The name of the account to post unrealized
+gains to (as a subaccount of Equity).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.tree.Tree.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">insert</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.tree.Tree.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – An account name.</p></li>
+<li><p><strong>insert</strong> – If True, insert the name into the tree if it does not
+exist.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The account of that name or an empty account if the
+account is not in the tree.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fava.core.tree.TreeNode" title="fava.core.tree.TreeNode">TreeNode</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.tree.Tree.insert">
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">balance</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.tree.Tree.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert account with a balance.</p>
+<p>Insert account and update its balance and the balances of its
+ancestors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – An account name.</p></li>
+<li><p><strong>balance</strong> – The balance of the account.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.tree.Tree.net_profit">
+<code class="sig-name descname">net_profit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">account_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.tree.Tree.net_profit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the net profit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>options</strong> – The Beancount options.</p></li>
+<li><p><strong>account_name</strong> – The name to use for the account containing the net
+profit.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fava.core.tree.TreeNode">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.tree.</code><code class="sig-name descname">TreeNode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.tree.TreeNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>A node in the account tree.</p>
+<dl class="py attribute">
+<dt id="fava.core.tree.TreeNode.balance">
+<code class="sig-name descname">balance</code><a class="headerlink" href="#fava.core.tree.TreeNode.balance" title="Permalink to this definition">¶</a></dt>
+<dd><p>The account balance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.tree.TreeNode.balance_children">
+<code class="sig-name descname">balance_children</code><a class="headerlink" href="#fava.core.tree.TreeNode.balance_children" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cumulative account balance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.tree.TreeNode.children">
+<code class="sig-name descname">children</code><a class="headerlink" href="#fava.core.tree.TreeNode.children" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of <a class="reference internal" href="#fava.core.tree.TreeNode" title="fava.core.tree.TreeNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">TreeNode</span></code></a>, its children.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.tree.TreeNode.has_txns">
+<code class="sig-name descname">has_txns</code><a class="headerlink" href="#fava.core.tree.TreeNode.has_txns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether the account has any transactions.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="fava.core.tree.TreeNode.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#fava.core.tree.TreeNode.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Account name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.tree.TreeNode.serialise">
+<code class="sig-name descname">serialise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">conversion</span></em>, <em class="sig-param"><span class="n">price_map</span></em>, <em class="sig-param"><span class="n">end</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)">datetime.date</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fava.core.tree.TreeNode.serialise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serialise the account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>end</strong> – A date to use for cost conversions.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.core.watcher">
+<span id="fava-core-watcher"></span><h2>fava.core.watcher<a class="headerlink" href="#module-fava.core.watcher" title="Permalink to this headline">¶</a></h2>
+<p>A simple file and folder watcher.</p>
+<dl class="py class">
+<dt id="fava.core.watcher.Watcher">
+<em class="property">class </em><code class="sig-prename descclassname">fava.core.watcher.</code><code class="sig-name descname">Watcher</code><a class="headerlink" href="#fava.core.watcher.Watcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple file and folder watcher.</p>
+<p>For folders, only checks mtime of the folder and all subdirectories.
+So a file change won’t be noticed, but only new/deleted files.</p>
+<dl class="py method">
+<dt id="fava.core.watcher.Watcher.check">
+<code class="sig-name descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="headerlink" href="#fava.core.watcher.Watcher.check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check for changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><cite>True</cite> if there was a file change in one of the files or folders,
+<cite>False</cite> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fava.core.watcher.Watcher.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">files</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">folders</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#fava.core.watcher.Watcher.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the folders/files to watch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>files</strong> – A list of file paths.</p></li>
+<li><p><strong>folders</strong> – A list of paths to folders.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">Fava</h1>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">Web interface for <a href="http://furius.ca/beancount/">Beancount</a></p>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development.html">Development</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="fava.html">fava</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">fava.core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core._compat">fava.core._compat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.accounts">fava.core.accounts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.attributes">fava.core.attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.budgets">fava.core.budgets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.charts">fava.core.charts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.conversion">fava.core.conversion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.documents">fava.core.documents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.extensions">fava.core.extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.fava_options">fava.core.fava_options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.file">fava.core.file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.filters">fava.core.filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.ingest">fava.core.ingest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.inventory">fava.core.inventory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.misc">fava.core.misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.module_base">fava.core.module_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.number">fava.core.number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.query_shell">fava.core.query_shell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.tree">fava.core.tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.core.watcher">fava.core.watcher</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fava.ext.html">fava.ext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fava.ext.portfolio_list.html">fava.ext.portfolio_list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fava.help.html">fava.help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fava.plugins.html">fava.plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fava.util.html">fava.util</a></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="https://github.com/beancount/fava">fava @ GitHub</a></li>
+    
+    <li class="toctree-l1"><a href="https://gitter.im/beancount/fava">Chat</a></li>
+    
+    <li class="toctree-l1"><a href="https://github.com/beancount/fava/issues">Issue Tracker</a></li>
+    
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Dominik Aumayr.
+      
+      |
+      <a href="../_sources/api/fava.core.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
